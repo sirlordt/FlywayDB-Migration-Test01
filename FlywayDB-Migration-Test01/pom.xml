@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+ <!-- 
+ 
+  create maven eclipse debug profile 
+  
+  Name: mvn exec-java 
+  Base directory: ${workspace_loc:/FlywayDB-Migration-Test01} 
+  Goal: exec:java -Dexec.mainClass="com.tomasmoreno.test.CApplication" -Dexec.args=""  
+  
+  Remember!!!! In Tab Source Add the source project directory 
+ 
+ -->
+  
+ <modelVersion>4.0.0</modelVersion>
+ <groupId>FlywayDB-Migration-Test01</groupId>
+ <artifactId>FlywayDB-Migration-Test01</artifactId>
+ 
+ <version>0.0.1-SNAPSHOT</version>
+ <name>FlywayDB migration test01</name>
+ <description>FlywayDB migration test01</description>
+  
+ <properties>
+  
+  <jdk.version>1.8</jdk.version>
+  <junit.version>4.11</junit.version>
+  
+  <target01.finalName>FlywayDB-Migration-Test01</target01.finalName>
+  <target01.mainClass>com.tomasmoreno.test.CApplication</target01.mainClass>
+
+  <target.finalName>${target01.finalName}</target.finalName>
+  <target.mainClass>${target01.mainClass}</target.mainClass>
+  
+ </properties>
+  
+ <dependencies>
+
+  <dependency>
+
+   <groupId>junit</groupId>
+   <artifactId>junit</artifactId>
+   <version>${junit.version}</version>
+   <scope>test</scope>
+
+  </dependency>
+   
+  <dependency>
+  
+    <groupId>org.flywaydb</groupId>
+    <artifactId>flyway-core</artifactId>
+    <version>4.0.3</version>
+  
+  </dependency>
+
+  <dependency>
+  
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>6.0.5</version>
+  
+  </dependency>
+   
+ </dependencies>
+
+ <build>
+
+  <finalName>${target.finalName}</finalName>
+
+  <plugins>
+
+   <!-- Set a compiler level -->
+   <plugin>
+
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>2.3.2</version>
+
+    <configuration>
+
+     <source>${jdk.version}</source>
+     <target>${jdk.version}</target>
+
+    </configuration>
+
+   </plugin>
+
+   <!-- Make this jar executable -->
+   <plugin>
+
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>2.6</version>
+
+    <configuration>
+
+     <excludes>
+
+      <exclude>**/log4j.properties</exclude>
+
+     </excludes>
+
+     <archive>
+
+      <manifest>
+
+       <addClasspath>true</addClasspath>
+       <mainClass>${target.mainClass}</mainClass>
+       <classpathPrefix>libs/</classpathPrefix>
+
+      </manifest>
+
+     </archive>
+
+    </configuration>
+
+   </plugin>
+
+   <!-- Copy project dependency -->
+   <plugin>
+
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-dependency-plugin</artifactId>
+    <version>2.5.1</version>
+
+    <executions>
+
+     <execution>
+
+      <id>copy-dependencies</id>
+      <phase>package</phase>
+
+      <goals>
+       <goal>copy-dependencies</goal>
+      </goals>
+
+      <configuration>
+
+       <!-- exclude junit, we need runtime dependency only -->
+       <includeScope>runtime</includeScope>
+       <outputDirectory>${project.build.directory}/libs/</outputDirectory>
+
+      </configuration>
+
+     </execution>
+
+    </executions>
+
+   </plugin>
+
+  </plugins>
+
+ </build>  
+  
+</project>
